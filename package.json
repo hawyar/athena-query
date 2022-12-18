@@ -1,0 +1,30 @@
+{
+  "name": "node-lib-starter",
+  "version": "1.0.0",
+  "description": "Node.js lib starter",
+  "author": "hawyar",
+  "main": "dist/athena.cjs",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "tap test.js --no-coverage --reporter=specy -J --color",
+    "build": "esbuild lib/athena.js --minify --format=cjs --bundle --platform=node --outfile=dist/athena.cjs && esbuild lib/athena.js --minify --format=esm --bundle --platform=node --outfile=dist/athena.mjs"
+  },
+  "exports": {
+    ".": {
+      "default": {
+        "require": "./dist/athena.cjs",
+        "default": "./dist/athena.mjs"
+      }
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.13.4",
+    "standard": "^17.0.0",
+    "tap": "^15.2.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.231.0",
+    "@aws-sdk/credential-provider-node": "^3.231.0"
+  }
+}
