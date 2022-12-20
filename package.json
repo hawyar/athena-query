@@ -1,13 +1,14 @@
 {
-  "name": "node-lib-starter",
+  "name": "athena-query",
   "version": "1.0.0",
-  "description": "Node.js lib starter",
+  "description": "",
   "author": "hawyar",
   "main": "dist/athena.cjs",
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "test": "tap test.js --no-coverage --reporter=specy -J --color",
+    "lint": "standard --fix",
+    "test": "tap test.js --reporter=specy -J --color --no-coverage ",
     "build": "esbuild lib/athena.js --minify --format=cjs --bundle --platform=node --outfile=dist/athena.cjs && esbuild lib/athena.js --minify --format=esm --bundle --platform=node --outfile=dist/athena.mjs"
   },
   "exports": {
@@ -17,6 +18,14 @@
         "default": "./dist/athena.mjs"
       }
     }
+  },
+  "standard": {
+    "ignore": [
+      "dist",
+      "node_modules",
+      ".nyc_output",
+      "coverage"
+    ]
   },
   "devDependencies": {
     "esbuild": "^0.13.4",
