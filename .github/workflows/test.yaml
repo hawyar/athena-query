@@ -1,21 +1,27 @@
-name: test
+name: tests
 
-on: [push]
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
 
 jobs:
-  test:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [14.x, 16.x, 18.x]
-    name: Node.js ${{ matrix.node-version }} (${{ matrix.os }})
-    runs-on: $
+        node-version: [16.x, 18.x, 19.x]
+
+    runs-on: ${{ matrix.os }}
+
+    
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js $
-        uses: actions/setup-node@v2
+      - name: Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: $
+          node-version: ${{ matrix.node-version }}
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -23,4 +29,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       - run: npm ci
-      - run: npm test
+      - run: npm run build
+      - run: npm run test
