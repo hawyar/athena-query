@@ -1,7 +1,7 @@
 {
   "name": "athena-query",
   "version": "1.0.0",
-  "description": "",
+  "description": "Query AWS Athena",
   "author": "hawyar",
   "main": "dist/athena.cjs",
   "type": "module",
@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "standard --fix",
     "test": "tap test.js --reporter=specy -J --color --no-coverage ",
-    "build": "esbuild lib/athena.js --minify --format=cjs --bundle --platform=node --outfile=dist/athena.cjs && esbuild lib/athena.js --minify --format=esm --bundle --platform=node --outfile=dist/athena.mjs"
+    "build": "esbuild lib/athena.js --minify --format=cjs --platform=node --outfile=dist/athena.cjs && esbuild lib/athena.js --minify --format=esm --platform=node --outfile=dist/athena.mjs"
   },
   "exports": {
     ".": {
@@ -34,6 +34,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-athena": "^3.231.0",
-    "@aws-sdk/credential-provider-node": "^3.231.0"
+    "@aws-sdk/credential-providers": "^3.236.0"
   }
 }

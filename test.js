@@ -6,7 +6,7 @@ tap.test('query', async t => {
     try {
       await query()
     } catch (error) {
-      t.equal(error.message, 'query string is required')
+      t.equal(error.message, 'query string is required (e.g. SELECT * FROM "sales" limit 10;)')
     }
   })
 
@@ -14,15 +14,13 @@ tap.test('query', async t => {
     try {
       await query('SELECT * FROM "sales" limit 10;')
     } catch (error) {
-      t.equal(error.message, 'output bucket is required')
+      t.equal(error.message, 'output location is required (e.g. s3://bucket/path)')
     }
   })
   t.test('row and column', async t => {
     const { columns, rows } = await query('SELECT * FROM "sales" where country = \'Tuvalu\';', {
-      database: 'default',
-      workGroup: 'primary',
       profile: 'hawyar',
-      bucket: 'dundermifflinco-output'
+      output: 'dundermifflinco-output'
     })
     t.equal(rows[0].country, 'Tuvalu')
     t.equal(rows.length, 1)

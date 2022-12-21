@@ -5,7 +5,7 @@
 
 ### Usage
 
-```bash
+```bashj 
 npm i athena-query
 ```
 
@@ -15,13 +15,12 @@ import { query } from 'athena-query'
 
 await query('SELECT * FROM my_table')
 
-// with options:
+// and with options:
 // await query('SELECT * FROM my_table', {
-//  database: 'default',
 //  region: 'us-east-1',
 //  profile: 'team-dev',
 //  workgroup: 'etl'
-//  bucket: 'my-super-bucket'
+//  output: 'my-super-bucket'
 //  backoff: 3000
 //  })
 ```
