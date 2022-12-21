@@ -1,6 +1,6 @@
 ## athena-query
 
-![test](https://github.com/hawyar/node-lib-starter/actions/workflows/test.yml/badge.svg)
+![tests](https://github.com/hawyar/athena-query/actions/workflows/test.yml/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ### Usage

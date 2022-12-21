@@ -19,7 +19,6 @@ tap.test('query', async t => {
   })
   t.test('row and column', async t => {
     const { columns, rows } = await query('SELECT * FROM "sales" where country = \'Tuvalu\';', {
-      profile: 'hawyar',
       output: 'dundermifflinco-output'
     })
     t.equal(rows[0].country, 'Tuvalu')
