@@ -18,9 +18,15 @@ tap.test('query', async t => {
     }
   })
   t.test('row and column', async t => {
-    const { columns, rows } = await query('SELECT * FROM "sales" where country = \'Tuvalu\';', {
+    const opt = {
       output: 'dundermifflinco-output'
-    })
+    }
+
+    if (!process.env.GITHUB_ACTIONS) {
+      opt.profile = 'hawyar'
+    }
+
+    const { columns, rows } = await query('SELECT * FROM "sales" where country = \'Tuvalu\';', opt)
     t.equal(rows[0].country, 'Tuvalu')
     t.equal(rows.length, 1)
     t.equal(columns.length, 14)
