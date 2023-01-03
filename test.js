@@ -1,5 +1,5 @@
 import tap from 'tap'
-import { query } from './lib/athena.js'
+import { query } from './lib/query.js'
 
 tap.test('query', async t => {
   t.test('throw if no query is provided', async t => {

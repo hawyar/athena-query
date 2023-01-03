@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "description": "Query AWS Athena",
   "author": "hawyar",
-  "main": "dist/athena.cjs",
+  "main": "dist/query.cjs",
   "type": "module",
   "license": "MIT",
   "scripts": {
     "lint": "standard --fix",
     "test": "tap test.js --reporter=specy -J --color --no-coverage ",
-    "build": "esbuild lib/athena.js --minify --format=cjs --platform=node --outfile=dist/athena.cjs && esbuild lib/athena.js --minify --format=esm --platform=node --outfile=dist/athena.mjs"
+    "build": "esbuild lib/query.js --minify --format=cjs --platform=node --outfile=dist/query.cjs && esbuild lib/query.js --minify --format=esm --platform=node --outfile=dist/query.mjs"
   },
   "exports": {
     ".": {
       "default": {
-        "require": "./dist/athena.cjs",
-        "default": "./dist/athena.mjs"
+        "require": "./dist/query.cjs",
+        "default": "./dist/query.mjs"
       }
     }
   },
