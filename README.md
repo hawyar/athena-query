@@ -11,11 +11,11 @@ npm i athena-query
 
 ```javascript
 import { query } from 'athena-query'
-// const { query } = require('athena-query')
 
 await query('SELECT * FROM my_table')
 
-// with options:
+// options:
+
 // await query('SELECT * FROM my_table', {
 //  region: 'us-east-1',
 //  profile: 'team-dev',
