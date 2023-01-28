@@ -26,7 +26,7 @@ tap.test('query', async t => {
       opt.profile = 'hawyar'
     }
 
-    const { columns, rows } = await query('SELECT * FROM "sales" where country = \'Tuvalu\';', opt)
+    const [columns, rows] = await query('SELECT * FROM "sales" where country = \'Tuvalu\'', opt)
     t.equal(rows[0].country, 'Tuvalu')
     t.equal(rows.length, 1)
     t.equal(columns.length, 14)

@@ -5,22 +5,22 @@
 
 ### Usage
 
-```bash
+<!-- ```bash
 npm i athena-query
-```
+``` -->
 
 ```javascript
 import { query } from 'athena-query'
 
-await query('SELECT * FROM my_table')
-
-// options:
-
-// await query('SELECT * FROM my_table', {
-//  region: 'us-east-1',
-//  profile: 'team-dev',
-//  workgroup: 'etl'
-//  output: 'my-super-bucket'
-//  backoff: 3000
-//  })
+const [columns, rows] = await query('select id, name from my_supertable')
 ```
+
+### Options
+
+- `region` - AWS region
+- `profile` - AWS profile
+- `workgroup` - Athena workgroup
+- `output` - S3 bucket to store query results
+- `backoff` - Backoff time in milliseconds
+
+
