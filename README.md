@@ -5,14 +5,24 @@
 
 ### Usage
 
-<!-- ```bash
+```bash
 npm i athena-query
-``` -->
+```
+
+> @aws-sdk/credential-providers and @aws-sdk/client-athena are required as peer dependencies, make sure you to install them as well.
+
 
 ```javascript
 import { query } from 'athena-query'
 
-const [columns, rows] = await query('select id, name from my_supertable')
+const [columns, rows] = await query('select * from yourtable')
+
+// with options
+const [columns, rows] = await query('select * from yourtable', {
+    region: 'us-east-1',
+    output: 's3://yourbucket/athena-query-results',
+    backoff: 2000 // milliseconds
+})
 ```
 
 ### Options

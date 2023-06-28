@@ -1,8 +1,8 @@
 import tap from 'tap'
 import { query } from './lib/query.js'
 
-tap.test('query', async t => {
-  t.test('throw if no query is provided', async t => {
+tap.test('athena-query', async t => {
+  t.test('throw if query is not provided', async t => {
     try {
       await query()
     } catch (error) {
@@ -10,14 +10,30 @@ tap.test('query', async t => {
     }
   })
 
-  t.test('throw if no bucket is provided', async t => {
-    try {
-      await query('SELECT * FROM "sales" limit 10;')
-    } catch (error) {
-      t.equal(error.message, 'output location is required (e.g. s3://bucket/path)')
+  t.test('basic query', async t => {
+    const opt = {}
+
+    if (!process.env.GITHUB_ACTIONS) {
+      opt.profile = 'hawyar'
     }
+
+    const stmt = `
+    SELECT region, item_type, AVG(unit_price) AS avg_unit_price
+    FROM "default"."sales"
+    GROUP BY region, item_type;`
+
+    const [columns, rows] = await query(stmt, opt)
+
+    for (const row of rows) {
+      t.ok(row.region)
+      t.ok(row.item_type)
+      t.ok(row.avg_unit_price)
+    }
+
+    t.equal(columns.length, 3)
   })
-  t.test('row and column', async t => {
+
+  t.test('query with output bucket', async t => {
     const opt = {
       output: 'dundermifflinco-output'
     }
@@ -27,6 +43,7 @@ tap.test('query', async t => {
     }
 
     const [columns, rows] = await query('SELECT * FROM "sales" where country = \'Tuvalu\'', opt)
+
     t.equal(rows[0].country, 'Tuvalu')
     t.equal(rows.length, 1)
     t.equal(columns.length, 14)
