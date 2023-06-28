@@ -3,20 +3,15 @@
   "version": "1.0.0",
   "description": "Query AWS Athena",
   "author": "hawyar",
-  "type": "module",
   "license": "MIT",
-  "main": "dist/query.cjs",
-  "scripts": {
-    "test": "tap test.js --reporter=specy -J --color --no-coverage ",
-    "build": "esbuild lib/query.js --minify --format=cjs --bundle --platform=node --outfile=dist/query.cjs && esbuild lib/query.js --minify --format=esm --platform=node --outfile=dist/query.mjs"
+  "type": "module",
+  "main": "query.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawyar/athena-query.git"
   },
-  "exports": {
-    ".": {
-      "default": {
-        "require": "./dist/query.cjs",
-        "default": "./dist/query.mjs"
-      }
-    }
+  "scripts": {
+    "test": "tap test.js --reporter=specy -J --color --no-coverage "
   },
   "standard": {
     "ignore": [
@@ -26,12 +21,7 @@
       "coverage"
     ]
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "devDependencies": {
-    "esbuild": "^0.13.4",
-    "standard": "^17.0.0",
     "tap": "^15.2.3"
   },
   "peerDependencies": {
