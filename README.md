@@ -9,7 +9,7 @@
 npm i athena-query
 ```
 
-> @aws-sdk/credential-providers and @aws-sdk/client-athena are required as peer dependencies, make sure you to install them as well.
+> @aws-sdk/credential-providers and @aws-sdk/client-athena are required as peer dependencies, make sure to install them as well.
 
 
 ```javascript
