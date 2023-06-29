@@ -1,6 +1,6 @@
 {
   "name": "athena-query",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Query AWS Athena",
   "source": "query.js",
   "author": "hawyar",
