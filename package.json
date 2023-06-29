@@ -19,9 +19,9 @@
   },
   "scripts": {
     "build": "esbuild lib/query.js --format=cjs --platform=node --outfile=dist/query.cjs && esbuild lib/query.js --format=esm --platform=node --outfile=dist/query.js && tsc",
-    "test": "tap test.js --reporter=specy -J --color --no-coverage",
-    "prepublish": "npm run build"
+    "test": "tap test.js --reporter=specy -J --color --no-coverage"
   },
+  "files": ["dist", "lib", "test.js", "tsconfig.json"],
   "standard": {
     "ignore": [
       "dist",
