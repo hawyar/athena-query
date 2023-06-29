@@ -1,5 +1,5 @@
 import { fromEnv, fromIni } from '@aws-sdk/credential-providers'
-import { StartQueryExecutionCommand, GetQueryExecutionCommand, AthenaClient, GetQueryResultsCommand } from '@aws-sdk/client-athena'
+import { StartQueryExecutionCommand, GetQueryExecutionCommand, AthenaClient, GetQueryResultsCommand, ListDatabasesCommand } from '@aws-sdk/client-athena'
 
 let athena = null
 
@@ -24,9 +24,9 @@ export async function query(raw, opt = {}) {
     throw new Error('query string is required (e.g. SELECT * FROM "sales" limit 10;)')
   }
 
-  // if (!opt.output) {
-  //   throw new Error('output location is required (e.g. s3://bucket/path)')
-  // }
+  if (!opt.output) {
+    throw new Error('output location is required (e.g. s3://bucket/path)')
+  }
 
   opt.database = opt.database || 'default'
   opt.workgroup = opt.workgroup || 'primary'
@@ -55,8 +55,8 @@ export async function query(raw, opt = {}) {
     QueryString: raw,
     WorkGroup: opt.workgroup,
     QueryExecutionContext: {
-      Database: opt.database || 'default',
-      Catalog: opt.catalog || 'AwsDataCatalog'
+      Database: opt.database,
+      Catalog: opt.catalog,
     }
   }
 
@@ -66,10 +66,17 @@ export async function query(raw, opt = {}) {
     }
   }
 
+  const databases = await athena.send(new ListDatabasesCommand({ CatalogName: opt.catalog }))
+  const schemas = databases.DatabaseList.map(db => db.Name)
+
+  if (!schemas.includes(opt.database)) {
+    throw new Error(`SCHEMA_NOT_FOUND: Schema '${opt.database}' does not exist. Available schemas: ${schemas.join(', ')}`)
+  }
+
   const start = await athena.send(new StartQueryExecutionCommand(params))
 
   if (start.$metadata.httpStatusCode !== 200) {
-    throw new Error('FailedQuery: the start query exectuion did not return 200')
+    throw new Error(start)
   }
 
   const backoff = opt.backoff || 1000
@@ -82,15 +89,15 @@ export async function query(raw, opt = {}) {
         }))
 
         if (get.$metadata.httpStatusCode !== 200) {
-          reject(new Error('FailedQuery: unable to query Athena'))
+          reject(new Error(get))
         }
 
         if (get.QueryExecution.Status.State === 'SUCCEEDED') {
           return resolve()
         } else if (get.QueryExecution.Status.State === 'FAILED') {
-          return reject(new Error('FailedQuery: unable to query Athena'))
+          return reject(new Error(get.QueryExecution.Status.StateChangeReason))
         } else if (get.QueryExecution.Status.State === 'CANCELLED') {
-          return reject(new Error('CancelledQuery: unable to query Athena'))
+          return reject(new Error(get.QueryExecution.Status.StateChangeReason))
         } else if (get.QueryExecution.Status.State === 'RUNNING' || get.QueryExecution.Status.State === 'QUEUED') {
           poll().then(resolve).catch(reject)
         }
@@ -107,7 +114,7 @@ export async function query(raw, opt = {}) {
   }))
 
   if (output.$metadata.httpStatusCode !== 200) {
-    throw new Error('FailedQuery: unable to query Athena')
+    throw new Error(output)
   }
 
   const columns = output.ResultSet.ResultSetMetadata.ColumnInfo.map(c => {

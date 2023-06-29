@@ -11,7 +11,9 @@ tap.test('athena-query', async t => {
   })
 
   t.test('basic query', async t => {
-    const opt = {}
+    const opt = {
+      output: 'dundermifflinco-output'
+    }
 
     if (!process.env.GITHUB_ACTIONS) {
       opt.profile = 'hawyar'
