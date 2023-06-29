@@ -2,15 +2,23 @@
   "name": "athena-query",
   "version": "1.0.0",
   "description": "Query AWS Athena",
+  "source": "query.js",
   "author": "hawyar",
   "license": "MIT",
   "type": "module",
-  "main": "query.js",
+  "main": "lib/query.js",
+  "module": "lib/query.js",
+  "exports": {
+    "require": "./dist/query.cjs",
+    "import": "./dist/query.js",
+    "types": "./dist/query.d.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hawyar/athena-query.git"
   },
   "scripts": {
+    "build": "esbuild lib/query.js --format=cjs --platform=node --outfile=dist/query.cjs && esbuild lib/query.js --format=esm --platform=node --outfile=dist/query.js && tsc",
     "test": "tap test.js --reporter=specy -J --color --no-coverage "
   },
   "standard": {
@@ -22,7 +30,9 @@
     ]
   },
   "devDependencies": {
-    "tap": "^15.2.3"
+    "@types/node": "^20.3.2",
+    "tap": "^15.2.3",
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "@aws-sdk/client-athena": "^3.252.0",

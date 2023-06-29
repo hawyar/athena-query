@@ -29,3 +29,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - run: npm ci
       - run: npm run test
+      - run: npm run build
